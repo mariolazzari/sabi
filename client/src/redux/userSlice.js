@@ -4,17 +4,29 @@ const initialState = {
   users: [],
   user: null,
   loading: false,
+  error: "",
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUsersLoading: (state, payload) => {
-      state.loading = payload;
+    getUsers: state => {
+      state.loading = true;
+      state.error = "";
+    },
+    getUsersSuccess: (state, action) => {
+      state.users = action.payload;
+      state.loading = false;
+    },
+    getUsersError: (state, action) => {
+      state.users = [];
+      state.error = action.payload;
+      state.loading = false;
     },
   },
 });
 
-export const { setUsersLoading } = userSlice.actions;
+export const { getUsers, getUsersSuccess, getUsersError } = userSlice.actions;
+
 export default userSlice.reducer;
